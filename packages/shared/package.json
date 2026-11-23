@@ -1,0 +1,23 @@
+{
+  "name": "@ajaia/shared",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Contracts shared by web and api: editor schema, Zod schemas, types, constants.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./editor": "./src/editor.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@tiptap/core": "^3.35.0",
+    "@tiptap/pm": "^3.35.0",
+    "@tiptap/starter-kit": "^3.35.0",
+    "zod": "^4.1.0"
+  },
+  "sideEffects": false
+}

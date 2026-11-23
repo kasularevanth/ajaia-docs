@@ -1,0 +1,26 @@
+{
+  "name": "ajaia-docs",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Ajaia Docs — a lightweight collaborative document editor (React + TipTap, Express + Drizzle, Postgres).",
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "concurrently -k -n api,web -c blue,magenta \"npm run dev -w @ajaia/api\" \"npm run dev -w @ajaia/web\"",
+    "build": "npm run build -w @ajaia/api && npm run build -w @ajaia/web",
+    "start": "npm run start -w @ajaia/api",
+    "test": "npm run test -w @ajaia/api",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "db:generate": "npm run db:generate -w @ajaia/api"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "typescript": "~5.9.3"
+  }
+}

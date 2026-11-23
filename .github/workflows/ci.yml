@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Typecheck (shared, api, web)
+        run: npm run typecheck
+      - name: API tests (Vitest + Supertest + in-memory Postgres via PGlite)
+        run: npm test
+      - name: Production builds
+        run: npm run build
