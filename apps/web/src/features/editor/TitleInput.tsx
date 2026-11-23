@@ -4,11 +4,21 @@ import { DEFAULT_TITLE, MAX_TITLE_LENGTH, TitleSchema } from '@ajaia/shared';
 import { isApiError } from '../../lib/api';
 import { useRenameDocument } from '../documents/api';
 
-/** Inline rename: commits on blur or Enter, reverts on Escape. */
+const AUTO_COMMIT_MS = 1000;
+
+/**
+ * Inline rename. The title saves itself ~1s after typing stops (like the body), on blur / Enter,
+ * and — so a rename is never lost — when the editor closes by any route (Back link, browser back,
+ * keyboard). Escape reverts to the last saved title.
+ */
 export function TitleInput({ docId, title, canEdit }: { docId: string; title: string; canEdit: boolean }) {
   const [value, setValue] = useState(title);
+  const valueRef = useRef(title);
   const committed = useRef(title);
   const rename = useRenameDocument();
+  const renameRef = useRef(rename.mutate);
+  renameRef.current = rename.mutate;
+  valueRef.current = value;
 
   useEffect(() => {
     document.title = `${value.trim() || DEFAULT_TITLE} – Ajaia Docs`;
@@ -17,28 +27,49 @@ export function TitleInput({ docId, title, canEdit }: { docId: string; title: st
     };
   }, [value]);
 
-  const commit = () => {
-    const next = value.trim() || DEFAULT_TITLE;
-    if (next === committed.current) return setValue(next);
+  /** Saves the current text if it changed. `interactive` shows validation errors and normalizes the field. */
+  const commit = (interactive: boolean) => {
+    const next = valueRef.current.trim() || DEFAULT_TITLE;
+    if (interactive) setValue(next);
+    if (next === committed.current) return;
     const parsed = TitleSchema.safeParse(next);
     if (!parsed.success) {
-      toast.error(parsed.error.issues[0]?.message ?? 'Invalid title');
-      return setValue(committed.current);
+      if (interactive) {
+        toast.error(parsed.error.issues[0]?.message ?? 'Invalid title');
+        setValue(committed.current);
+      }
+      return;
     }
-    setValue(parsed.data);
-    rename.mutate(
+    const previous = committed.current;
+    committed.current = parsed.data; // optimistic: avoids duplicate sends from blur + debounce
+    renameRef.current(
       { id: docId, title: parsed.data },
       {
-        onSuccess: (doc) => {
-          committed.current = doc.title;
-        },
         onError: (err) => {
+          committed.current = previous;
+          setValue(previous);
           toast.error(isApiError(err) ? err.message : "Couldn't rename the document");
-          setValue(committed.current);
         },
       },
     );
   };
+  const commitRef = useRef(commit);
+  commitRef.current = commit;
+
+  // Auto-save the title shortly after typing stops.
+  useEffect(() => {
+    if (!canEdit || value.trim() === committed.current) return;
+    const timer = window.setTimeout(() => commitRef.current(false), AUTO_COMMIT_MS);
+    return () => window.clearTimeout(timer);
+  }, [value, canEdit]);
+
+  // Flush a pending rename when the editor closes, whichever way the user leaves.
+  useEffect(
+    () => () => {
+      if (canEdit) commitRef.current(false);
+    },
+    [canEdit],
+  );
 
   return (
     <input
@@ -47,12 +78,13 @@ export function TitleInput({ docId, title, canEdit }: { docId: string; title: st
       maxLength={MAX_TITLE_LENGTH}
       aria-label="Document title"
       onChange={(e) => setValue(e.target.value)}
-      onBlur={() => canEdit && commit()}
+      onBlur={() => canEdit && commit(true)}
       onKeyDown={(e) => {
         if (e.key === 'Enter') {
           e.preventDefault();
           e.currentTarget.blur();
         } else if (e.key === 'Escape') {
+          valueRef.current = committed.current;
           setValue(committed.current);
           const el = e.currentTarget;
           requestAnimationFrame(() => el.blur());

@@ -45,6 +45,19 @@ body {
   outline-offset: 2px;
 }
 
+/* Tailwind v4 resets buttons to the default cursor; interactive controls should show a pointer.
+   In the base layer so utilities like `disabled:cursor-not-allowed` still win. */
+@layer base {
+  button:not(:disabled),
+  [role='button']:not([aria-disabled='true']),
+  [role='tab'],
+  [role='menuitem'],
+  select:not(:disabled),
+  summary {
+    cursor: pointer;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

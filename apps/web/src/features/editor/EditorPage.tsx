@@ -23,8 +23,7 @@ export default function EditorPage() {
   const { id = '' } = useParams();
   const query = useDocument(id);
 
-  if (query.isPending) return <FullPageSpinner label="Opening document" />;
-  if (query.isError) {
+  if (query.isError && !query.data) {
     const missing = isApiError(query.error) && [400, 403, 404].includes(query.error.status);
     return (
       <main className="mx-auto max-w-lg px-5 py-24 text-center">
@@ -45,6 +44,8 @@ export default function EditorPage() {
       </main>
     );
   }
+  // Never mount the editor from a cached copy: wait for this visit's fresh read.
+  if (!query.data || !query.isFetchedAfterMount) return <FullPageSpinner label="Opening document" />;
   return <DocumentEditor key={query.data.id} doc={query.data} />;
 }
 

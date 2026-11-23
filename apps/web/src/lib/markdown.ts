@@ -7,16 +7,20 @@ export function toMarkdown(doc: JSONContent): string {
       .map((n) => {
         if (n.type === 'hardBreak') return '  \n';
         if (n.type !== 'text') return inline(n.content);
-        let text = n.text ?? '';
+        // CommonMark only treats `**x**` as bold when the delimiters hug non-space text, so keep
+        // leading/trailing whitespace outside the markers ("**Try it:** " not "**Try it: **").
+        const [, lead = '', core = '', trail = ''] = /^(\s*)([\s\S]*?)(\s*)$/.exec(n.text ?? '') ?? [];
+        if (!core) return lead + trail;
+        let text = core;
         const marks = new Set(n.marks?.map((m) => m.type));
         if (marks.has('code')) text = `\`${text}\``;
         if (marks.has('bold')) text = `**${text}**`;
-        if (marks.has('italic')) text = `*${text}*`;
+        if (marks.has('italic')) text = `_${text}_`;
         if (marks.has('strike')) text = `~~${text}~~`;
         if (marks.has('underline')) text = `<u>${text}</u>`;
         const link = n.marks?.find((m) => m.type === 'link');
         if (link?.attrs?.href) text = `[${text}](${link.attrs.href})`;
-        return text;
+        return lead + text + trail;
       })
       .join('');
 
@@ -53,7 +57,12 @@ export function toMarkdown(doc: JSONContent): string {
     }
   };
 
-  return `${(doc.content ?? []).map((n) => block(n)).join('\n\n')}\n`;
+  const body = (doc.content ?? [])
+    .map((n) => block(n))
+    .join('\n\n')
+    .replace(/\n{3,}/g, '\n\n') // empty paragraphs shouldn't become runs of blank lines
+    .trim();
+  return `${body}\n`;
 }
 
 export function downloadTextFile(filename: string, text: string, type = 'text/markdown') {
