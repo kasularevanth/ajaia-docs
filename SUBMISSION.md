@@ -9,7 +9,7 @@
 | **API health** | https://ajaia-docs-api-h888.onrender.com/api/health |
 | **Google Drive folder** | https://drive.google.com/drive/folders/1XPE0JxW1sqtKXJILhS_FSp-pdypvX8u_?usp=sharing |
 | **Source code** | https://github.com/kasularevanth/ajaia-docs (also in the Drive folder as a zip) |
-| **Walkthrough video** | See `VIDEO_URL.txt` |
+| **Walkthrough video** | https://www.loom.com/share/7ccdd68db553453fb946bffb921f9e2e (also in `VIDEO_URL.txt`) |
 
 > The API is on Render's free tier and sleeps when idle. **The first request can take up to ~1 minute.** The app shows a "Starting the server" banner, and after that it is fast.
 
@@ -21,9 +21,11 @@
 | Carol Singh | carol@ajaia.test | Empty. Use her to test granting access. |
 
 ## What's included in this folder
+Top level of the Drive folder: `README.md`, `ARCHITECTURE.md`, `AI_WORKFLOW.md`, `SUBMISSION.md`, `VIDEO_URL.txt`, `screenshots/` and `ajaia-docs-source.zip`. The repo paths below are inside the zip and on GitHub.
+
 | Item | Path |
 |---|---|
-| Source code (monorepo: web, api, shared) | `apps/`, `packages/` |
+| Source code (monorepo: web, api, shared), with docs and tests | `ajaia-docs-source.zip` (also on GitHub) |
 | Setup and run instructions | `README.md` |
 | Architecture note | `ARCHITECTURE.md` |
 | AI workflow note | `AI_WORKFLOW.md` |
