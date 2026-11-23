@@ -5,8 +5,8 @@
 ## Links
 | | |
 |---|---|
-| **Live product** | https://ajaia-docs-web.onrender.com |
-| **API health** | https://ajaia-docs-api.onrender.com/api/health |
+| **Live product** | https://ajaia-docs-web-9lts.onrender.com |
+| **API health** | https://ajaia-docs-api-h888.onrender.com/api/health |
 | **Source code** | https://github.com/kasularevanth/ajaia-docs (also in this Drive folder) |
 | **Walkthrough video** | See `VIDEO_URL.txt` |
 

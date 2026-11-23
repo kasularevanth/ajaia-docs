@@ -31,7 +31,7 @@ services:
       - key: JWT_EXPIRES_IN
         value: 7d
       - key: CORS_ORIGINS
-        value: https://ajaia-docs-web.onrender.com
+        value: https://ajaia-docs-web-9lts.onrender.com
       - key: MAX_UPLOAD_MB
         value: "5"
       - key: SEED_DEMO_DATA
@@ -62,7 +62,7 @@ services:
         value: "22"
       # Public, not a secret. Also committed in apps/web/.env.production.
       - key: VITE_API_URL
-        value: https://ajaia-docs-api.onrender.com
+        value: https://ajaia-docs-api-h888.onrender.com
     routes:
       - type: rewrite
         source: /*

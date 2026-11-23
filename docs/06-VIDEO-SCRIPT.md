@@ -1,6 +1,6 @@
 # 06 — Walkthrough Video Script (target 4:30)
 
-Before recording: open https://ajaia-docs-api.onrender.com/api/health once so the server is awake. Have a small `.docx` or `.md` file ready on your desktop.
+Before recording: open https://ajaia-docs-api-h888.onrender.com/api/health once so the server is awake. Have a small `.docx` or `.md` file ready on your desktop.
 
 ## 0:00–0:30 · What and why
 "This is Ajaia Docs, a lightweight collaborative editor. I didn't try to clone Google Docs. I picked the core loop of write, save safely, import, and share with the right permissions, and went deep on it: every requirement works end to end and is enforced on the server and covered by tests."

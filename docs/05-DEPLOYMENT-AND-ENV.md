@@ -25,11 +25,11 @@
 ```
 GitHub repo (main)
    │  push → auto-deploy (Render Blueprint: render.yaml)
-   ├──────────────► Render Static Site  "ajaia-docs-web"   https://ajaia-docs-web.onrender.com
+   ├──────────────► Render Static Site  "ajaia-docs-web"   https://ajaia-docs-web-9lts.onrender.com
    │                 build: npm ci && npm run build -w @ajaia/web   publish: apps/web/dist
    │                 rewrite /* → /index.html  (SPA routing)
    │
-   └──────────────► Render Web Service  "ajaia-docs-api"   https://ajaia-docs-api.onrender.com
+   └──────────────► Render Web Service  "ajaia-docs-api"   https://ajaia-docs-api-h888.onrender.com
                      build: npm ci && npm run build -w @ajaia/api
                      start: npm run start -w @ajaia/api    (migrate → seed → listen)
                      health: /api/health
@@ -53,7 +53,7 @@ GitHub repo (main)
 | `DATABASE_URL` | ✅ | `postgresql://neondb_owner:****@ep-xxxx-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require` | Neon **pooled** connection string. If empty, the API uses local PGlite (dev only). |
 | `JWT_SECRET` | ✅ | *(64 random chars)* | HMAC secret for tokens. `render.yaml` uses `generateValue: true`. Locally: `node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"` |
 | `JWT_EXPIRES_IN` | ➖ | `7d` | Token lifetime |
-| `CORS_ORIGINS` | ✅ | `https://ajaia-docs-web.onrender.com` | Comma-separated allow-list of frontend origins (no trailing slash) |
+| `CORS_ORIGINS` | ✅ | `https://ajaia-docs-web-9lts.onrender.com` | Comma-separated allow-list of frontend origins (no trailing slash) |
 | `MAX_UPLOAD_MB` | ➖ | `5` | Import file size limit |
 | `SEED_DEMO_DATA` | ➖ | `true` | Seed Alice, Bob, Carol and sample docs at boot (idempotent) |
 | `DEMO_PASSWORD` | ➖ | `demo1234` | Password for the seeded demo users |
@@ -63,7 +63,7 @@ GitHub repo (main)
 
 | Variable | Required | Example | Description |
 |---|---|---|---|
-| `VITE_API_URL` | ✅ | `https://ajaia-docs-api.onrender.com` | API base URL, **baked in at build time**. Changing it requires a rebuild ("Manual Deploy → Clear cache & deploy"). |
+| `VITE_API_URL` | ✅ | `https://ajaia-docs-api-h888.onrender.com` | API base URL, **baked in at build time**. Changing it requires a rebuild ("Manual Deploy → Clear cache & deploy"). |
 | `NODE_VERSION` | ✅ (Render) | `22` | Build-time Node version |
 
 > Never put secrets in `VITE_*` variables. They end up in the public JS bundle.
@@ -181,14 +181,14 @@ services:
 1. Render → **New → Blueprint** → select the repo. Render reads `render.yaml` and shows both services.
 2. Enter the `sync: false` values:
    - `DATABASE_URL` = the Neon pooled string
-   - `CORS_ORIGINS` = `https://ajaia-docs-web.onrender.com` (adjust if Render added a suffix)
-   - `VITE_API_URL` = `https://ajaia-docs-api.onrender.com` (adjust likewise)
+   - `CORS_ORIGINS` = `https://ajaia-docs-web-9lts.onrender.com` (adjust if Render added a suffix)
+   - `VITE_API_URL` = `https://ajaia-docs-api-h888.onrender.com` (adjust likewise)
 3. **Apply**, then wait for both builds to go green.
 4. If the generated URLs differ from what you entered, update the two env vars. The API restarts on its own. For the static site, use **Manual Deploy → Clear build cache & deploy**.
 
 **E. Smoke test (about 3 min)**
 ```powershell
-curl https://ajaia-docs-api.onrender.com/api/health
+curl https://ajaia-docs-api-h888.onrender.com/api/health
 ```
 Then in the browser: log in as Alice → open "Q4 Product Brief" → edit → refresh (the change persists) → share with Carol → log in as Carol → the doc shows under "Shared with me".
 

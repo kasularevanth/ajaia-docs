@@ -4,8 +4,8 @@ A lightweight collaborative document editor: create, format, import and share do
 
 | | |
 |---|---|
-| **Live app** | https://ajaia-docs-web.onrender.com |
-| **API** | https://ajaia-docs-api.onrender.com/api/health |
+| **Live app** | https://ajaia-docs-web-9lts.onrender.com |
+| **API** | https://ajaia-docs-api-h888.onrender.com/api/health |
 | **Stack** | React 19 + Vite + TipTap (ProseMirror) · Express 5 + Drizzle ORM · PostgreSQL (Neon) · Render |
 
 > **First load can take up to ~1 minute.** The API runs on Render's free tier, which sleeps after 15 idle minutes. The app shows a "Starting the server" banner while it wakes, then it is fast.
