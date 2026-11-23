@@ -32,6 +32,20 @@ All passwords are `demo1234`. The login page also has one-click buttons for each
 
 ---
 
+## Screenshots
+
+| | |
+|---|---|
+| Login with one-click demo accounts | ![Login](docs/screenshots/01-login.jpg) |
+| Dashboard: ink tab = owned, highlighter tab = shared (with sharer + role) | ![Dashboard](docs/screenshots/02-dashboard-owned-vs-shared.jpg) |
+| Editor: formatting, inline title, autosave status | ![Editor](docs/screenshots/03-editor-formatting-autosave.jpg) |
+| Share dialog: add by email, viewer/editor roles, revoke | ![Share](docs/screenshots/04-share-dialog.jpg) |
+| Carol sees the doc under Shared with me | ![Shared with me](docs/screenshots/05-carol-shared-with-me.jpg) |
+| Viewer mode: read-only, no toolbar (API also returns 403) | ![View only](docs/screenshots/06-carol-view-only.jpg) |
+| Markdown import becomes a structured document | ![Import](docs/screenshots/07-markdown-import.jpg) |
+
+---
+
 ## Features
 
 | Area | What works |
