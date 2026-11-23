@@ -7,7 +7,8 @@
 |---|---|
 | **Live product** | https://ajaia-docs-web-9lts.onrender.com |
 | **API health** | https://ajaia-docs-api-h888.onrender.com/api/health |
-| **Source code** | https://github.com/kasularevanth/ajaia-docs (also in this Drive folder) |
+| **Google Drive folder** | https://drive.google.com/drive/folders/1XPE0JxW1sqtKXJILhS_FSp-pdypvX8u_?usp=sharing |
+| **Source code** | https://github.com/kasularevanth/ajaia-docs (also in the Drive folder as a zip) |
 | **Walkthrough video** | See `VIDEO_URL.txt` |
 
 > The API is on Render's free tier and sleeps when idle. **The first request can take up to ~1 minute.** The app shows a "Starting the server" banner, and after that it is fast.
